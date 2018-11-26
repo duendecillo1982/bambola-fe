@@ -20,7 +20,7 @@ export class CustomerService {
     private messageService: MessageService) { }
 
   private customersUrl = '/customers';  // URL to web api
-  
+
   getCustomers(): Observable<Customer[]> {
     return this.http.get<Customer[]>(environment.baseUrl + this.customersUrl)
       .pipe(
@@ -29,15 +29,22 @@ export class CustomerService {
       );
   }
 
-  /*
-  getCustomers(): Observable<Customer[]> {
-    return this.http.get<Customer[]>('https://stark-savannah-75410.herokuapp.com/customers')
-      .pipe(
-        tap(_ => this.log('fetched customers')),
-        catchError(this.handleError('getCustomers', []))
-      );
+  getCustomer(id: number): Observable<Customer> {
+    const url = `${environment.baseUrl + this.customersUrl}/${id}`;
+    return this.http.get<Customer>(url).pipe(
+      tap(_ => this.log(`fetched customer id=${id}`)),
+      catchError(this.handleError<Customer>(`getCustomer id=${id}`))
+    );
   }
-  */
+
+  updateCustomer(customer: Customer, id: number): Observable<any> {
+    const url = `${environment.baseUrl + this.customersUrl}/${id}`;
+    return this.http.put(url, customer, httpOptions).pipe(
+      tap(_ => this.log(`updated customer id=${customer.lastName}`)),
+      catchError(this.handleError<any>('updateCustomer'))
+    );
+  }
+
 
   private log(message: string) {
     this.messageService.add(`CustomerService: ${message}`);

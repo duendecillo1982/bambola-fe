@@ -2,6 +2,9 @@
 
 <ul class="customers">
   <li *ngFor="let customer of customers">
-      <span>{{customer.firstName}}</span> {{customer.lastName}}
+      
+          <a routerLink="/customers/{{customer.id}}">
+            <span>{{customer.id}} {{customer.firstName}} {{customer.lastName}}</span>
+          </a>
   </li>
 </ul>

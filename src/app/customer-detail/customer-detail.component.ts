@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { Customer } from '../customer';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
@@ -12,7 +12,8 @@ import { CustomerService } from '../customer.service';
 })
 export class CustomerDetailComponent implements OnInit {
 
-  @Input() customer: Customer;
+  //@Input() customer: Customer;
+  customer: Customer;
 
   constructor(
     private route: ActivatedRoute,

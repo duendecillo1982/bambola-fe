@@ -15,6 +15,11 @@ import { InMemoryDataService } from './in-memory-data.service';
 import { HeroSearchComponent } from './hero-search/hero-search.component';
 import { CustomersComponent } from './customers/customers.component';
 import { CustomerDetailComponent } from './customer-detail/customer-detail.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { CustomerEditorComponent } from './customer-editor/customer-editor.component';
+import { SearchCustomerComponent } from './search-customer/search-customer.component';
+
+import { AppMaterialModule } from './app-material/app-material.module';
 
 
 @NgModule({
@@ -27,12 +32,16 @@ import { CustomerDetailComponent } from './customer-detail/customer-detail.compo
     HeroSearchComponent,
     CustomersComponent,
     CustomerDetailComponent,
+    CustomerEditorComponent,
+    SearchCustomerComponent,
   ],
   imports: [
     BrowserModule,
     FormsModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule,
+    AppMaterialModule
     // The HttpClientInMemoryWebApiModule module intercepts HTTP requests
     // and returns simulated server responses.
     // Remove it when a real server is ready to receive requests.

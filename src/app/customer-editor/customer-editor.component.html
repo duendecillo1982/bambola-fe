@@ -1,0 +1,26 @@
+<div *ngIf="customer">
+  <p>ID: {{ customer.id }}</p>
+  <form [formGroup]="customerForm">
+
+    <label>
+      First Name:
+      <input type="text" formControlName="firstName">
+    </label>
+
+    <label>
+      Last Name:
+      <input type="text" formControlName="lastName">
+    </label>
+
+    <label>
+      Street:
+      <input type="text" formControlName="postalCode">
+    </label>
+
+    <label>
+      City:
+      <input type="text" formControlName="city">
+    </label>
+
+  </form>
+</div>

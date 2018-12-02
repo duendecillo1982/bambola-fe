@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CustomerService } from '../customer.service';
 import { Customer } from '../customer';
-import { MatTableDataSource } from '@angular/material';
+import { CustomersDataSource } from './customers-data-source';
 
 @Component({
   selector: 'app-search-customer',
@@ -10,22 +10,14 @@ import { MatTableDataSource } from '@angular/material';
 })
 export class SearchCustomerComponent implements OnInit {
 
-customers: Customer[];
-datasource = new MatTableDataSource(this.customers);
+datasource : CustomersDataSource;
 displayedColumns = ['id', 'firstName', 'lastName'];
 
   constructor(private customerService: CustomerService) { }
 
   ngOnInit() {
-    this.getCustomers();
-  }
-
-  getCustomers(): void {
-    this.customerService.getCustomers()
-      .subscribe(customers => {
-        this.customers = customers,
-        this.datasource.data = this.customers}
-        );
+    this.datasource = new CustomersDataSource(this.customerService);
+    this.datasource.loadCustomers(0, 2);
   }
 
   onRowClicked(row) {

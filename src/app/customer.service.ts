@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Customer } from './customer';
 import { Observable, of } from 'rxjs';
 import { MessageService } from './message.service';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
 import { environment } from '../environments/environment';
 
@@ -21,13 +21,18 @@ export class CustomerService {
 
   private customersUrl = '/customers';  // URL to web api
 
-  getCustomers(): Observable<Customer[]> {
-    return this.http.get<Customer[]>(environment.baseUrl + this.customersUrl)
-      .pipe(
-        tap(_ => this.log('fetched customers')),
-        catchError(this.handleError('getCustomers', []))
-      );
-  }
+  findCustomers(page = 0, size = 2):  Observable<Customer[]> {
+
+    return this.http.get(environment.baseUrl + this.customersUrl, {
+        params: new HttpParams()
+            .set('page', page.toString())
+            .set('size', size.toString())
+    }).pipe(
+        map(res =>  res["content"]),
+        tap(_ => this.log('found customers')),
+        catchError(this.handleError('findCustomers', []))
+    );
+}
 
   getCustomer(id: number): Observable<Customer> {
     const url = `${environment.baseUrl + this.customersUrl}/${id}`;
@@ -44,7 +49,6 @@ export class CustomerService {
       catchError(this.handleError<any>('updateCustomer'))
     );
   }
-
 
   private log(message: string) {
     this.messageService.add(`CustomerService: ${message}`);

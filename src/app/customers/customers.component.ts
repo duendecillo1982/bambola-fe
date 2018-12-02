@@ -18,7 +18,7 @@ export class CustomersComponent implements OnInit {
   }
 
   getCustomers(): void {
-    this.customerService.getCustomers()
+    this.customerService.findCustomers()
       .subscribe(customers => this.customers = customers);
   }
 

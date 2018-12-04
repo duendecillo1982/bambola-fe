@@ -25,12 +25,12 @@ export class CustomersDataSource implements DataSource<Customer> {
         this.loadingSubject.complete();
     }
 
-    loadCustomers(pageIndex = 0, pageSize = 2): void {
+    loadCustomers(filter='', pageIndex = 0, pageSize = 2): void {
 
         this.loadingSubject.next(true);
 
         this.customerService.findCustomers(
-            pageIndex, pageSize).pipe(
+            filter, pageIndex, pageSize).pipe(
             finalize(() => this.loadingSubject.next(false))
         )
         .subscribe(customers => {

@@ -21,10 +21,11 @@ export class CustomerService {
 
   private customersUrl = '/customers';  // URL to web api
 
-  findCustomers(page = 0, size = 2): Observable<Customer[]> {
+  findCustomers(filter = '', page = 0, size = 2): Observable<Customer[]> {
 
     return this.http.get<any>(environment.baseUrl + this.customersUrl, {
       params: new HttpParams()
+        .set('searchTerm', filter.toString())
         .set('page', page.toString())
         .set('size', size.toString())
     }).pipe(

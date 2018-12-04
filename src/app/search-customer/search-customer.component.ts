@@ -1,9 +1,10 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { CustomerService } from '../customer.service';
 import { Customer } from '../customer';
 import { CustomersDataSource } from './customers-data-source';
 import { MatPaginator } from '@angular/material';
-import { tap } from 'rxjs/operators';
+import { tap, debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { fromEvent } from 'rxjs';
 
 @Component({
   selector: 'app-search-customer',
@@ -17,16 +18,29 @@ export class SearchCustomerComponent implements OnInit {
   totalNumberofCustomers: number = 5;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild('input') input: ElementRef;
 
   constructor(private customerService: CustomerService) { }
 
   ngOnInit() {
     this.datasource = new CustomersDataSource(this.customerService);
-    this.datasource.loadCustomers(0, 2);
+    this.datasource.loadCustomers('', 0, 2);
     this.getTotalNumberOfCustomers();
   }
 
   ngAfterViewInit() {
+
+    fromEvent(this.input.nativeElement, 'keyup')
+      .pipe(
+        debounceTime(150),
+        distinctUntilChanged(),
+        tap(() => {
+          this.paginator.pageIndex = 0;
+          this.loadCustomersPage();
+        })
+      )
+      .subscribe();
+
     this.paginator.page
       .pipe(
         tap(() => this.loadCustomersPage())
@@ -45,8 +59,9 @@ export class SearchCustomerComponent implements OnInit {
 
   loadCustomersPage() {
     this.datasource.loadCustomers(
-        this.paginator.pageIndex,
-        this.paginator.pageSize);
+      this.input.nativeElement.value,
+      this.paginator.pageIndex,
+      this.paginator.pageSize);
   }
 
 }

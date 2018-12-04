@@ -1,25 +1,30 @@
-<div class="mat-app-background">
-  <mat-table class="customers-table mat-elevation-z8" [dataSource]="datasource">
-
-    <ng-container matColumnDef="id">
-      <mat-header-cell *matHeaderCellDef>ID</mat-header-cell>
-      <mat-cell *matCellDef="let customer">{{customer.id}}</mat-cell>
-    </ng-container>
-
-    <ng-container matColumnDef="firstName">
-      <mat-header-cell *matHeaderCellDef>First name</mat-header-cell>
-      <mat-cell class="firstName-cell" *matCellDef="let customer">{{customer.firstName}}</mat-cell>
-
-    </ng-container>
-
-    <ng-container matColumnDef="lastName">
-      <mat-header-cell *matHeaderCellDef>Last name</mat-header-cell>
-      <mat-cell class="lastName-cell" *matCellDef="let customer">{{customer.lastName}}</mat-cell>
-    </ng-container>
-
-    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-
-    <mat-row *matRowDef="let row; columns: displayedColumns" (click)="onRowClicked(row)"></mat-row>
-
-  </mat-table>
+<div class="spinner-container" *ngIf="datasource.loading$ | async">
+  <mat-spinner></mat-spinner>
 </div>
+
+<mat-table class="customers-table mat-elevation-z8" [dataSource]="datasource">
+
+  <ng-container matColumnDef="id">
+    <mat-header-cell *matHeaderCellDef>ID</mat-header-cell>
+    <mat-cell *matCellDef="let customer">{{customer.id}}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="firstName">
+    <mat-header-cell *matHeaderCellDef>First name</mat-header-cell>
+    <mat-cell class="firstName-cell" *matCellDef="let customer">{{customer.firstName}}</mat-cell>
+
+  </ng-container>
+
+  <ng-container matColumnDef="lastName">
+    <mat-header-cell *matHeaderCellDef>Last name</mat-header-cell>
+    <mat-cell class="lastName-cell" *matCellDef="let customer">{{customer.lastName}}</mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+
+  <mat-row *matRowDef="let row; columns: displayedColumns" (click)="onRowClicked(row)"></mat-row>
+
+</mat-table>
+
+<mat-paginator [length]="totalNumberofCustomers" [pageSize]="2"
+[pageSizeOptions]="[2, 5, 10]"></mat-paginator>

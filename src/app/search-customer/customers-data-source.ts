@@ -12,6 +12,8 @@ export class CustomersDataSource implements DataSource<Customer> {
 
     public loading$ = this.loadingSubject.asObservable();
 
+    totalElements: string;
+
     constructor(private customerService: CustomerService) {}
 
     connect(collectionViewer: CollectionViewer): Observable<Customer[]> {
@@ -23,7 +25,7 @@ export class CustomersDataSource implements DataSource<Customer> {
         this.loadingSubject.complete();
     }
 
-    loadCustomers(pageIndex = 0, pageSize = 2) {
+    loadCustomers(pageIndex = 0, pageSize = 2): void {
 
         this.loadingSubject.next(true);
 
@@ -31,6 +33,9 @@ export class CustomersDataSource implements DataSource<Customer> {
             pageIndex, pageSize).pipe(
             finalize(() => this.loadingSubject.next(false))
         )
-        .subscribe(customers => this.customersSubject.next(customers));
-    }    
+        .subscribe(customers => {
+            this.customersSubject.next(customers)
+            }
+        );
+    }
 }

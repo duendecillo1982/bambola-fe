@@ -21,18 +21,29 @@ export class CustomerService {
 
   private customersUrl = '/customers';  // URL to web api
 
-  findCustomers(page = 0, size = 2):  Observable<Customer[]> {
+  findCustomers(page = 0, size = 2): Observable<Customer[]> {
 
-    return this.http.get(environment.baseUrl + this.customersUrl, {
-        params: new HttpParams()
-            .set('page', page.toString())
-            .set('size', size.toString())
+    return this.http.get<any>(environment.baseUrl + this.customersUrl, {
+      params: new HttpParams()
+        .set('page', page.toString())
+        .set('size', size.toString())
     }).pipe(
-        map(res =>  res["content"]),
-        tap(_ => this.log('found customers')),
-        catchError(this.handleError('findCustomers', []))
+      tap(res => console.log(res)),
+      map(res => res.content),
+      tap(_ => this.log('found customers')),
+      catchError(this.handleError('findCustomers', []))
     );
-}
+  }
+
+  getTotalNumberOfCustomers(): Observable<number> {
+
+    return this.http.get<any>(environment.baseUrl + this.customersUrl).pipe(
+      map(res => res.totalElements),
+      tap(res => console.log(res)),
+      tap(res => this.log(`total number of customers = `+ res)),
+      catchError(this.handleError('getTotalNumberOfCustomers', []))
+    );
+  }
 
   getCustomer(id: number): Observable<Customer> {
     const url = `${environment.baseUrl + this.customersUrl}/${id}`;

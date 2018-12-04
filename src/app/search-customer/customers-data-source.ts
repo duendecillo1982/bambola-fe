@@ -25,7 +25,7 @@ export class CustomersDataSource implements DataSource<Customer> {
         this.loadingSubject.complete();
     }
 
-    loadCustomers(filter='', pageIndex = 0, pageSize = 2): void {
+    loadCustomers(filter='',  pageIndex = 0, pageSize = 2): void {
 
         this.loadingSubject.next(true);
 

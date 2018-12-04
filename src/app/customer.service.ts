@@ -25,7 +25,7 @@ export class CustomerService {
 
     return this.http.get<any>(environment.baseUrl + this.customersUrl, {
       params: new HttpParams()
-        .set('searchTerm', filter.toString())
+        .set('lastName', filter)
         .set('page', page.toString())
         .set('size', size.toString())
     }).pipe(

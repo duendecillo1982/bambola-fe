@@ -10,7 +10,7 @@ import { SearchCustomerComponent } from './search-customer/search-customer.compo
 
 const routes: Routes = [
   { path: 'detail/:id', component: HeroDetailComponent },
-  { path: '', redirectTo: '/customers', pathMatch: 'full' },
+  { path: '', redirectTo: '/searchcustomer', pathMatch: 'full' },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'heroes', component: HeroesComponent },
   { path: 'customers', component: CustomersComponent },
